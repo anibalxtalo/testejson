@@ -53,4 +53,36 @@
   <div id="card-container"></div>
 
   <script>
-    // URL do arquivo JSON (precisa estar no mesmo diretório do ind
+    // Caminho para o JSON no GitHub Pages (mesmo diretório do index.html)
+    const jsonUrl = './cards.json';
+
+    // Carregar o JSON e renderizar os cards
+    fetch(jsonUrl)
+      .then(response => {
+        if (!response.ok) throw new Error('Erro ao carregar o JSON');
+        return response.json();
+      })
+      .then(data => {
+        const container = document.getElementById('card-container');
+        data.forEach(card => {
+          // Criar o HTML do card
+          const cardElement = document.createElement('div');
+          cardElement.classList.add('card');
+          cardElement.innerHTML = `
+            <img src="${card.image}" alt="${card.title}">
+            <h3>${card.title}</h3>
+            <p>${card.description}</p>
+            <a href="${card.link}" target="_blank">Saiba mais</a>
+          `;
+          // Adicionar o card ao container
+          container.appendChild(cardElement);
+        });
+      })
+      .catch(error => {
+        console.error(error);
+        const container = document.getElementById('card-container');
+        container.innerHTML = `<p>Erro ao carregar os dados dos cards.</p>`;
+      });
+  </script>
+</body>
+</html>
