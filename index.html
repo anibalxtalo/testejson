@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exibição de Cards</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+    #card-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 16px;
+      width: 200px;
+      background: #fff;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .card img {
+      max-width: 100%;
+      border-radius: 4px;
+    }
+    .card h3 {
+      margin: 8px 0;
+      font-size: 1.2em;
+    }
+    .card p {
+      color: #555;
+      font-size: 0.9em;
+    }
+    .card a {
+      display: inline-block;
+      margin-top: 8px;
+      color: #007BFF;
+      text-decoration: none;
+    }
+    .card a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>Meus Cards</h1>
+  <div id="card-container"></div>
+
+  <script>
+    // URL do arquivo JSON (precisa estar no mesmo diretório do ind
