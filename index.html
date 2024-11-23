@@ -53,36 +53,72 @@
   <div id="card-container"></div>
 
   <script>
-    // Caminho para o JSON no GitHub Pages (mesmo diretório do index.html)
+    // Caminho para o JSON
     const jsonUrl = './cards.json';
 
+    // Função para criar um card no DOM
+    function createCard(card) {
+      console.log('Criando card:', card);
+      const cardElement = document.createElement('div');
+      cardElement.classList.add('card');
+      cardElement.innerHTML = `
+        <img src="${card.image}" alt="${card.title}">
+        <h3>${card.title}</h3>
+        <p>${card.description}</p>
+        <a href="${card.link}" target="_blank">Saiba mais</a>
+      `;
+      return cardElement;
+    }
+
+    // Função para exibir mensagem de erro no container
+    function showError(message) {
+      const container = document.getElementById('card-container');
+      container.innerHTML = `<p style="color: red;">${message}</p>`;
+    }
+
+    // Adiciona um card manualmente (para verificar renderização)
+    function addManualCard() {
+      const container = document.getElementById('card-container');
+      const manualCard = {
+        title: "Card Manual",
+        description: "Este card foi criado manualmente.",
+        image: "https://via.placeholder.com/150",
+        link: "#"
+      };
+      const cardElement = createCard(manualCard);
+      container.appendChild(cardElement);
+    }
+
     // Carregar o JSON e renderizar os cards
+    console.log('Carregando JSON:', jsonUrl);
     fetch(jsonUrl)
       .then(response => {
+        console.log('Resposta do fetch:', response);
         if (!response.ok) throw new Error('Erro ao carregar o JSON');
         return response.json();
       })
       .then(data => {
+        console.log('Dados carregados do JSON:', data);
         const container = document.getElementById('card-container');
-        data.forEach(card => {
-          // Criar o HTML do card
-          const cardElement = document.createElement('div');
-          cardElement.classList.add('card');
-          cardElement.innerHTML = `
-            <img src="${card.image}" alt="${card.title}">
-            <h3>${card.title}</h3>
-            <p>${card.description}</p>
-            <a href="${card.link}" target="_blank">Saiba mais</a>
-          `;
-          // Adicionar o card ao container
-          container.appendChild(cardElement);
-        });
+        if (Array.isArray(data) && data.length > 0) {
+          data.forEach(card => {
+            const cardElement = createCard(card);
+            container.appendChild(cardElement);
+          });
+        } else {
+          console.warn('JSON vazio ou não é um array.');
+          showError('Nenhum card encontrado no JSON.');
+        }
       })
       .catch(error => {
-        console.error(error);
-        const container = document.getElementById('card-container');
-        container.innerHTML = `<p>Erro ao carregar os dados dos cards.</p>`;
+        console.error('Erro ao carregar ou processar o JSON:', error);
+        showError('Erro ao carregar os dados dos cards.');
+        // Adiciona um card manual para testar a renderização
+        addManualCard();
       });
+
+    // Adiciona um card manual ao carregar a página (para testes)
+    addManualCard();
   </script>
 </body>
 </html>
